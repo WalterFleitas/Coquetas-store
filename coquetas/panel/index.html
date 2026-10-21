@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Coquetas – Panel de turnos</title>
+<link rel="icon" href="../logo-coquetas.png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&amp;family=Jost:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FFF8F6;--ink:#3A2A2F;--muted:#6F5A60;--line:#EBD3D7;--line2:#E3BFC8;--accent:#A0536A;--accent-ink:#8A4258;--soft:#FBEDEF;--danger:#9B2C2C}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Jost',system-ui,sans-serif;font-size:17px;line-height:1.5}
+a{color:var(--accent-ink)}
+button{font-family:inherit;cursor:pointer}
+button:disabled{cursor:not-allowed;opacity:.5}
+:focus-visible{outline:3px solid var(--accent-ink);outline-offset:2px}
+h1,h2,h3{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;margin:0}
+.wrap{max-width:720px;margin:0 auto;padding:16px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 0 16px}
+.top .brand{display:flex;align-items:center;gap:12px}
+.top img{width:44px;height:44px;border-radius:50%;display:block}
+.top h1{font-size:28px;line-height:1.1}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 22px;border-radius:999px;border:1.5px solid var(--accent);background:var(--accent);color:#fff;font-size:16px;font-weight:600;text-decoration:none}
+.btn:hover:not(:disabled){filter:brightness(.92)}
+.btn.ghost{background:#fff;color:var(--ink);border-color:var(--line2)}
+.btn.danger{background:#fff;color:var(--danger);border-color:#E7B9B9}
+.btn.sm{min-height:44px;padding:0 16px;font-size:15px}
+.card{background:#fff;border:1.5px solid var(--line);border-radius:18px;padding:18px}
+.login{max-width:420px;margin:48px auto 0}
+.login h2{font-size:34px;line-height:1.1}
+.field{display:flex;flex-direction:column;gap:6px;margin-top:16px}
+.field label{font-weight:500}
+.field input,.field select,.field textarea{min-height:48px;padding:0 14px;border-radius:12px;border:1.5px solid var(--line2);background:#fff;color:var(--ink);font-family:inherit;font-size:17px}
+.field textarea{padding:12px 14px;resize:vertical}
+.msg{margin-top:14px;padding:12px 14px;border-radius:12px;background:#FBEAEA;color:#7A1F1F;border:1px solid #E7B9B9}
+.msg.ok{background:#EAF5EE;color:#1E5A36;border-color:#BFE0CB}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.nav .date{order:-1;flex:1 1 100%;text-align:center;margin-bottom:4px}
+.nav .btn{flex:1 1 140px}
+.nav .date strong{display:block;font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;line-height:1.1}
+.nav input[type=date]{margin-top:4px;min-height:44px;border-radius:10px;border:1.5px solid var(--line2);padding:0 10px;font-family:inherit;font-size:16px;color:var(--ink);background:#fff}
+.tools{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0 16px}
+.tl{display:flex;flex-direction:column;gap:10px}
+.item{display:flex;gap:14px;align-items:stretch}
+.item .when{flex:0 0 92px;font-weight:600;padding-top:14px;font-variant-numeric:tabular-nums}
+.item .when small{display:block;font-weight:400;color:var(--muted)}
+.item .body{flex:1;min-width:0}
+.turno{background:var(--soft);border:1.5px solid var(--accent);border-radius:16px;padding:14px 16px}
+.turno .who{font-weight:600;font-size:18px}
+.turno .det{color:var(--muted);font-size:15px;margin-top:2px;overflow-wrap:anywhere}
+.turno .acts{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+.libre{background:#fff;border:1.5px dashed var(--line2);border-radius:16px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;color:var(--muted)}
+.formcard{margin-bottom:16px;border-color:var(--accent)}
+.formcard h3{font-size:26px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.empty{color:var(--muted);text-align:center;padding:24px 0}
+@media (max-width:520px){.two{grid-template-columns:1fr}.item .when{flex-basis:76px}}
+</style>
+</head>
+<body>
+<div class="wrap" id="root"></div>
+
+<script src="../coquetas.js"></script>
+<script>
+(function () {
+  var CQ = window.CQ, cfg = CQ.cfg, esc = CQ.esc;
+  var root = document.getElementById('root');
+  var CELLS = (cfg.CLOSE - cfg.OPEN) / cfg.STEP;
+  var st = { day: CQ.todayYMD(), turnos: [], loading: false, form: null, msg: null, token: null };
+
+  function head(right) {
+    return '<div class="top"><div class="brand"><img src="../logo-coquetas.png" alt=""><h1>Panel de turnos</h1></div>' + (right || '') + '</div>';
+  }
+
+  // ---------- Login ----------
+  function showLogin(msg) {
+    root.innerHTML = head() + '<div class="card login"><h2>Ingresar</h2>' +
+      '<form id="lf" novalidate><div class="field"><label for="em">Correo</label><input id="em" type="email" autocomplete="username" required></div>' +
+      '<div class="field"><label for="pw">Contraseña</label><input id="pw" type="password" autocomplete="current-password" required></div>' +
+      (msg ? '<div class="msg" role="alert">' + esc(msg) + '</div>' : '') +
+      '<div style="margin-top:20px"><button class="btn" type="submit" style="width:100%">Entrar</button></div></form></div>';
+    document.getElementById('lf').addEventListener('submit', function (e) {
+      e.preventDefault();
+      var b = e.target.querySelector('button'); b.disabled = true;
+      CQ.login(document.getElementById('em').value.trim(), document.getElementById('pw').value)
+        .then(function () { start(); })
+        .catch(function (err) { showLogin(err.status === 400 || err.status === 401 ? 'Correo o contraseña incorrectos.' : 'No se pudo conectar. Revisá tu internet e intentá de nuevo.'); });
+    });
+  }
+
+  // ---------- Datos ----------
+  function loadDay() {
+    st.loading = true; renderApp();
+    var s = CQ.at(st.day, 0).toISOString(), e = CQ.at(CQ.addDays(st.day, 1), 0).toISOString();
+    return CQ.token().then(function (t) {
+      if (!t) { showLogin('Tu sesión venció. Ingresá de nuevo.'); return null; }
+      st.token = t;
+      return CQ.rest('/rest/v1/turnos?select=*&inicio=gte.' + encodeURIComponent(s) + '&inicio=lt.' + encodeURIComponent(e) + '&order=inicio.asc', { token: t });
+    }).then(function (rows) {
+      if (rows === null) return;
+      st.turnos = rows || []; st.loading = false; renderApp();
+    }).catch(function (err) {
+      if (err.status === 401) { CQ.session.clear(); showLogin('Tu sesión venció. Ingresá de nuevo.'); return; }
+      st.loading = false; st.msg = { ok: false, t: 'No se pudieron cargar los turnos. Probá de nuevo.' }; renderApp();
+    });
+  }
+  function save(body, okText) {
+    return CQ.token().then(function (t) {
+      if (!t) { showLogin('Tu sesión venció. Ingresá de nuevo.'); return false; }
+      return CQ.rest('/rest/v1/turnos', { method: 'POST', token: t, body: body, prefer: 'return=minimal' }).then(function () {
+        st.form = null; st.msg = { ok: true, t: okText }; return loadDay();
+      });
+    }).catch(function (err) {
+      if (err.status === 409 || err.code === '23P01') st.msg = { ok: false, t: 'Ese horario se pisa con otro turno. Elegí otro horario o eliminá el que ya está.' };
+      else if (err.status === 401 || err.status === 403) st.msg = { ok: false, t: 'No tenés permiso para guardar. Entrá con el correo del salón.' };
+      else st.msg = { ok: false, t: 'No se pudo guardar. Probá de nuevo.' };
+      renderApp();
+    });
+  }
+  function remove(id) {
+    return CQ.token().then(function (t) {
+      return CQ.rest('/rest/v1/turnos?id=eq.' + encodeURIComponent(id), { method: 'DELETE', token: t });
+    }).then(function () { st.msg = { ok: true, t: 'Turno eliminado.' }; return loadDay(); })
+      .catch(function () { st.msg = { ok: false, t: 'No se pudo eliminar. Probá de nuevo.' }; renderApp(); });
+  }
+
+  // ---------- Vista del día ----------
+  function timeline() {
+    var items = [], cursor = cfg.OPEN;
+    st.turnos.forEach(function (t) {
+      var a = Math.max(CQ.minOfDay(new Date(t.inicio)), cfg.OPEN);
+      var b = Math.min(CQ.minOfDay(new Date(t.fin)) || cfg.CLOSE, cfg.CLOSE);
+      if (a > cursor) items.push({ gap: true, a: cursor, b: a });
+      items.push({ t: t, a: a, b: b });
+      cursor = Math.max(cursor, b);
+    });
+    if (cursor < cfg.CLOSE) items.push({ gap: true, a: cursor, b: cfg.CLOSE });
+    return items;
+  }
+  function itemHTML(it) {
+    var when = '<div class="when">' + CQ.hhmm(it.a) + '<small>a ' + CQ.hhmm(it.b) + '</small></div>';
+    if (it.gap) {
+      return '<div class="item">' + when + '<div class="body"><div class="libre"><span>Libre</span><button class="btn ghost sm" data-a="add" data-k="' + it.a + '">Agregar turno</button></div></div></div>';
+    }
+    var t = it.t, det = [];
+    if (t.servicios) det.push(esc(t.servicios));
+    if (t.telefono) det.push(esc(t.telefono));
+    if (t.notas) det.push(esc(t.notas));
+    var wa = t.telefono ? '<a class="btn ghost sm" target="_blank" rel="noopener" href="https://wa.me/' + CQ.waDigits(t.telefono) + '">Escribir por WhatsApp</a>' : '';
+    return '<div class="item">' + when + '<div class="body"><div class="turno"><div class="who">' + esc(t.cliente || 'Ocupado') + '</div>' +
+      (det.length ? '<div class="det">' + det.join(' · ') + '</div>' : '') +
+      '<div class="acts">' + wa + '<button class="btn danger sm" data-a="del" data-k="' + t.id + '">Eliminar</button></div></div></div></div>';
+  }
+  function formHTML() {
+    var f = st.form, starts = '', durs = '';
+    for (var s = cfg.OPEN; s < cfg.CLOSE; s += cfg.STEP) starts += '<option value="' + s + '"' + (s === f.start ? ' selected' : '') + '>' + CQ.hhmm(s) + '</option>';
+    for (var d = cfg.STEP; d <= cfg.CLOSE - cfg.OPEN; d += cfg.STEP) durs += '<option value="' + d + '"' + (d === f.dur ? ' selected' : '') + '>' + CQ.dur(d) + '</option>';
+    return '<form id="tf" class="card formcard" novalidate><h3>Nuevo turno</h3>' +
+      '<div class="field"><label for="f-cli">Clienta (si lo dejás vacío queda como "Ocupado")</label><input id="f-cli" type="text" autocomplete="off" autocapitalize="words" value="' + esc(f.cli) + '"></div>' +
+      '<div class="two"><div class="field"><label for="f-tel">Teléfono</label><input id="f-tel" type="tel" autocomplete="off" value="' + esc(f.tel) + '"></div>' +
+      '<div class="field"><label for="f-srv">Servicio</label><input id="f-srv" type="text" autocomplete="off" autocapitalize="sentences" value="' + esc(f.srv) + '"></div></div>' +
+      '<div class="two"><div class="field"><label for="f-ini">Desde</label><select id="f-ini">' + starts + '</select></div>' +
+      '<div class="field"><label for="f-dur">Duración</label><select id="f-dur">' + durs + '</select></div></div>' +
+      '<div class="field"><label for="f-not">Notas</label><textarea id="f-not" rows="2" autocapitalize="sentences">' + esc(f.not) + '</textarea></div>' +
+      '<div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap"><button class="btn" type="submit">Guardar</button><button class="btn ghost" type="button" data-a="cancel">Cancelar</button></div></form>';
+  }
+  function renderApp() {
+    var html = head('<button class="btn ghost sm" data-a="logout">Salir</button>');
+    html += '<div class="nav"><button class="btn ghost sm" data-a="prev" aria-label="Día anterior">‹ Anterior</button>' +
+      '<div class="date"><strong>' + esc(CQ.dateLabel(st.day)) + '</strong><input type="date" id="pick" value="' + st.day + '" aria-label="Elegir fecha"></div>' +
+      '<button class="btn ghost sm" data-a="next" aria-label="Día siguiente">Siguiente ›</button></div>';
+    html += '<div class="tools"><button class="btn sm" data-a="add" data-k="' + cfg.OPEN + '">+ Agregar turno</button>' +
+      '<button class="btn ghost sm" data-a="today">Hoy</button><button class="btn ghost sm" data-a="blockday">Bloquear el día completo</button></div>';
+    if (st.msg) html += '<div class="msg' + (st.msg.ok ? ' ok' : '') + '" role="status" style="margin:0 0 14px">' + esc(st.msg.t) + '</div>';
+    if (st.form) html += formHTML();
+    if (st.loading) html += '<p class="empty">Cargando…</p>';
+    else if (CQ.dow(st.day) === 0) html += '<p class="empty">Los domingos el salón está cerrado.</p>';
+    else html += '<div class="tl">' + timeline().map(itemHTML).join('') + '</div>';
+    root.innerHTML = html;
+    var f = document.getElementById('f-cli'); if (f) f.focus();
+  }
+
+  function setDay(ymd) { st.day = ymd; st.msg = null; st.form = null; loadDay(); }
+
+  root.addEventListener('click', function (e) {
+    var el = e.target.closest('[data-a]');
+    if (!el || el.disabled) return;
+    var a = el.dataset.a, k = el.dataset.k;
+    if (a === 'logout') { CQ.session.clear(); showLogin(); }
+    else if (a === 'prev') setDay(CQ.addDays(st.day, -1));
+    else if (a === 'next') setDay(CQ.addDays(st.day, 1));
+    else if (a === 'today') setDay(CQ.todayYMD());
+    else if (a === 'add') { st.msg = null; st.form = { start: Number(k), dur: 60 }; renderApp(); }
+    else if (a === 'cancel') { st.form = null; renderApp(); }
+    else if (a === 'del') { if (confirm('¿Eliminar este turno? El horario volverá a verse libre para las clientas.')) remove(k); }
+    else if (a === 'blockday') {
+      if (confirm('¿Bloquear todo el día? Las clientas lo verán como ocupado. Si ya hay turnos ese día, primero eliminalos.')) {
+        save({ inicio: CQ.at(st.day, cfg.OPEN).toISOString(), fin: CQ.at(st.day, cfg.CLOSE).toISOString(), cliente: 'Día no disponible' }, 'Día bloqueado.');
+      }
+    }
+  });
+  root.addEventListener('input', function (e) {
+    var id = e.target.id;
+    if (id === 'f-cli') CQ.applyCap(e.target, CQ.capWords);
+    else if (id === 'f-srv' || id === 'f-not') CQ.applyCap(e.target, CQ.capFirst);
+  });
+  root.addEventListener('change', function (e) {
+    if (e.target.id === 'pick' && e.target.value) setDay(e.target.value);
+  });
+  root.addEventListener('submit', function (e) {
+    if (e.target.id !== 'tf') return;
+    e.preventDefault();
+    var start = Number(document.getElementById('f-ini').value), dur = Number(document.getElementById('f-dur').value);
+    var val = function (id) { return document.getElementById(id).value.trim() || null; };
+    if (start + dur > cfg.CLOSE) {
+      st.form = { start: start, dur: dur, cli: val('f-cli'), tel: val('f-tel'), srv: val('f-srv'), not: val('f-not') };
+      st.msg = { ok: false, t: 'El turno se pasa del horario de atención (19:00). Elegí menos duración o un horario más temprano.' };
+      renderApp();
+      return;
+    }
+    save({
+      inicio: CQ.at(st.day, start).toISOString(), fin: CQ.at(st.day, start + dur).toISOString(),
+      cliente: val('f-cli') || 'Ocupado', telefono: val('f-tel'), servicios: val('f-srv'), notas: val('f-not')
+    }, 'Turno guardado.');
+  });
+
+  function start() { st.msg = null; st.form = null; loadDay(); }
+
+  // Arranque: si hay sesión guardada, entra directo
+  if (CQ.session.get()) start(); else showLogin();
+})();
+</script>
+</body>
+</html>

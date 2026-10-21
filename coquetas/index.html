@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Coquetas – Servicios y reservas</title>
+<meta name="description" content="Salón de belleza Coquetas, Saltos del Guairá. Mirá los servicios y precios y pedí tu turno por WhatsApp.">
+<link rel="icon" href="logo-coquetas.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&amp;family=Jost:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FFF8F6;--ink:#3A2A2F;--muted:#6F5A60;--line:#EBD3D7;--line2:#E3BFC8;--accent:#A0536A;--accent-ink:#8A4258;--soft:#FBEDEF;--dis:#F3ECEC}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Jost',system-ui,sans-serif;font-size:17px;line-height:1.5}
+a{color:var(--accent-ink)}
+a:hover{color:#6B3146}
+button{font-family:inherit;cursor:pointer}
+button:disabled{cursor:not-allowed}
+:focus-visible{outline:3px solid var(--accent-ink);outline-offset:2px}
+h1,h2,h3{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;margin:0}
+.wrap{max-width:1120px;margin:0 auto;padding-left:24px;padding-right:24px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 28px;border-radius:999px;border:1.5px solid var(--accent);background:var(--accent);color:#fff;font-size:17px;font-weight:600;text-decoration:none}
+.btn:hover:not(:disabled){filter:brightness(.92);color:#fff}
+.btn.ghost{background:#fff;color:var(--ink);border-color:var(--line)}
+.btn.ghost:hover:not(:disabled){color:var(--ink)}
+.btn.sm{min-height:44px;padding:0 20px;font-size:16px}
+.btn:disabled{opacity:.45}
+.ico{width:18px;height:18px;flex:none}
+header .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;padding-top:20px;padding-bottom:20px}
+header img{display:block;width:56px;height:56px;border-radius:50%}
+nav{display:flex;flex-wrap:wrap;align-items:center;gap:8px 28px}
+nav a.link{font-weight:500;text-decoration:none;min-height:44px;display:inline-flex;align-items:center}
+.hero{display:flex;flex-wrap:wrap;align-items:center;gap:48px;padding-top:24px;padding-bottom:80px}
+.hero .txt{flex:1 1 420px;min-width:0}
+.eyebrow{font-size:14px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-ink)}
+.hero h1{margin-top:14px;font-size:clamp(46px,7vw,72px);line-height:1;letter-spacing:-.01em}
+.hero p.lead{margin:22px 0 0;max-width:480px;font-size:20px;color:var(--muted)}
+.hero .cta{margin-top:32px;display:flex;flex-wrap:wrap;gap:12px}
+.facts{margin-top:36px;display:flex;flex-direction:column;gap:12px;color:var(--muted)}
+.facts div{display:flex;align-items:center;gap:10px}
+.facts svg{width:20px;height:20px;flex:none}
+.hero .logo{flex:1 1 300px;display:flex;justify-content:center}
+.hero .logo div{position:relative;width:min(420px,100%);padding:18px}
+.hero .logo div:before{content:"";position:absolute;inset:0;border:1.5px solid var(--line2);border-radius:50%}
+.hero .logo img{position:relative;display:block;width:100%;height:auto;border-radius:50%}
+#reservar{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+#reservar .wrap{padding-top:72px;padding-bottom:80px}
+#reservar h2{font-size:clamp(36px,5vw,52px);line-height:1.05}
+.sub{margin:12px 0 0;max-width:600px;color:var(--muted)}
+ol.steps{list-style:none;margin:32px 0;padding:0;display:flex;flex-wrap:wrap;gap:12px 28px}
+ol.steps li{display:flex;align-items:center;gap:10px;color:var(--muted);font-weight:500}
+ol.steps li.cur{color:var(--ink);font-weight:600}
+ol.steps .n{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:var(--dis);color:var(--muted);font-weight:600;font-size:15px}
+ol.steps li.cur .n{background:var(--accent);color:#fff}
+ol.steps li.past .n{background:#F6E3E6;color:var(--accent-ink)}
+.col{display:flex;flex-direction:column;gap:28px}
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chip{min-height:44px;padding:0 20px;border-radius:999px;border:1.5px solid var(--line);background:#fff;color:var(--ink);font-size:16px;font-weight:500}
+.chip[aria-pressed=true]{background:var(--ink);border-color:var(--ink);color:#fff}
+.list{display:flex;flex-direction:column;gap:14px}
+.list h3{margin:18px 0 0;font-size:32px;line-height:1.1;color:var(--accent-ink)}
+.card{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px 24px;padding:20px 22px;border-radius:18px;border:1.5px solid var(--line);background:var(--bg)}
+.card.on{border-color:var(--accent);background:var(--soft)}
+.card .name{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;line-height:1.15}
+.card .meta{margin-top:8px;display:flex;align-items:center;gap:8px;font-size:15px;color:var(--muted)}
+.card .meta svg{width:16px;height:16px}
+.card .right{display:flex;align-items:center;gap:18px}
+.card .price{font-size:20px;font-weight:600}
+.card .add{min-height:46px;min-width:116px;padding:0 20px;border-radius:999px;border:1.5px solid var(--accent);background:#fff;color:var(--accent-ink);font-size:16px;font-weight:600}
+.card.on .add{background:var(--accent);color:#fff}
+.bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px 24px;padding:22px 26px;border-radius:20px;background:var(--ink);color:#fff}
+.bar .s1{font-size:15px;color:#EBD3D7}
+.bar .s2{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:600;line-height:1.15}
+.bar .btn{background:#F6E3E6;color:var(--ink);border-color:#F6E3E6}
+.days{display:flex;gap:10px;overflow-x:auto;padding:4px 2px 12px}
+.day{flex:0 0 auto;width:84px;padding:12px 0;display:flex;flex-direction:column;align-items:center;gap:2px;border-radius:18px;border:1.5px solid var(--line);background:#fff;color:var(--ink)}
+.day .wd{font-size:14px;font-weight:500;text-transform:uppercase;letter-spacing:.06em}
+.day .num{font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:600;line-height:1.1}
+.day .mo{font-size:14px}
+.day[aria-pressed=true]{background:var(--accent);border-color:var(--accent);color:#fff}
+.slots{display:flex;flex-wrap:wrap;gap:10px}
+.slot{min-width:96px;min-height:48px;padding:0 16px;border-radius:12px;border:1.5px solid var(--line2);background:#fff;color:var(--ink);font-size:17px;font-weight:500}
+.slot[aria-pressed=true]{background:var(--accent);border-color:var(--accent);color:#fff}
+.slot:disabled{background:var(--dis);border-color:var(--dis);color:#6F5A60;text-decoration:line-through}
+.legend{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:14px;font-size:15px;color:var(--muted)}
+.note{padding:14px 18px;border-radius:14px;background:var(--soft);border:1px solid var(--line);color:var(--ink)}
+.row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px}
+.form2{display:flex;flex-wrap:wrap;gap:32px;align-items:flex-start}
+.fields{flex:1 1 340px;min-width:0;display:flex;flex-direction:column;gap:20px}
+.field{display:flex;flex-direction:column;gap:8px}
+.field label{font-weight:500}
+.field input,.field textarea{min-height:52px;padding:0 16px;border-radius:12px;border:1.5px solid var(--line2);background:#fff;color:var(--ink);font-family:inherit;font-size:17px}
+.field textarea{padding:14px 16px;resize:vertical}
+.sum{flex:1 1 320px;min-width:0;padding:26px;border-radius:20px;border:1.5px solid var(--line);background:var(--bg)}
+.sum h3{font-size:28px;line-height:1.1}
+.sum .it{margin-top:18px;display:flex;flex-direction:column;gap:12px}
+.sum .it div.l{display:flex;justify-content:space-between;gap:16px}
+.sum .it small{display:block;font-size:15px;color:var(--muted)}
+.sum .tot{margin-top:18px;padding-top:18px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:16px;font-size:20px;font-weight:600}
+.sum .info{margin-top:18px;display:flex;flex-direction:column;gap:8px;color:var(--muted)}
+.sum .info div{display:flex;align-items:center;gap:10px}
+.sum .info svg{width:18px;height:18px;flex:none}
+.done{margin:40px auto 0;max-width:560px;padding:44px 32px;border-radius:24px;border:1.5px solid var(--line);background:var(--bg);text-align:center}
+.done .ok{margin:0 auto;display:flex;align-items:center;justify-content:center;width:68px;height:68px;border-radius:50%;background:var(--accent);color:#fff}
+.done .ok svg{width:32px;height:32px}
+.done h3{margin-top:22px;font-size:40px;line-height:1.1}
+.done p{margin:10px 0 0;color:var(--muted)}
+.done .box{margin-top:26px;padding:20px;border-radius:16px;background:#fff;border:1px solid var(--line);text-align:left;display:flex;flex-direction:column;gap:6px}
+.done .acts{margin-top:28px;display:flex;flex-wrap:wrap;justify-content:center;gap:12px}
+footer .wrap{padding-top:72px;padding-bottom:40px}
+footer h2{font-size:clamp(34px,5vw,46px);line-height:1.05}
+footer .cols{margin-top:32px;display:flex;flex-wrap:wrap;gap:36px 64px}
+footer .lbl{font-size:14px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-ink)}
+footer .cols div div{margin-top:0}
+footer .cols .v{margin-top:8px}
+footer .copy{margin-top:56px;padding-top:24px;border-top:1px solid var(--line);font-size:15px;color:var(--muted)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+@media (max-width:520px){.wrap{padding-left:16px;padding-right:16px}.card .right{width:100%;justify-content:space-between}}
+</style>
+</head>
+<body>
+
+<header>
+<div class="wrap">
+<a href="#inicio" aria-label="Coquetas, inicio"><img src="logo-coquetas.png" alt="Coquetas" width="56" height="56"></a>
+<nav aria-label="Principal">
+<a class="link" href="#reservar">Servicios y reservas</a>
+<a class="link" href="#contacto">Contacto</a>
+<a class="btn sm" id="wa-top" href="#">
+<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H9l-5 4V5z"/></svg>
+WhatsApp
+</a>
+</nav>
+</div>
+</header>
+
+<main>
+<section id="inicio" class="wrap hero">
+<div class="txt">
+<div class="eyebrow">Salón de belleza</div>
+<h1>Date el gusto de sentirte linda</h1>
+<p class="lead">Mirá lo que ofrecemos, elegí un horario libre y mandanos tu solicitud por WhatsApp en menos de un minuto.</p>
+<div class="cta">
+<a class="btn" href="#reservar">Reservar turno
+<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+<a class="btn ghost" href="#reservar">Ver servicios</a>
+</div>
+<div class="facts">
+<div><svg viewBox="0 0 24 24" fill="none" stroke="#8A4258" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 1 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span>Barrio Primavera, Saltos del Guairá</span></div>
+<div><svg viewBox="0 0 24 24" fill="none" stroke="#8A4258" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>Lunes a sábado · 14:00 a 19:00</span></div>
+</div>
+</div>
+<div class="logo"><div><img src="logo-coquetas.png" alt="Logo de Coquetas"></div></div>
+</section>
+
+<section id="reservar">
+<div class="wrap">
+<h2>Servicios y reservas</h2>
+<p class="sub">Elegí tus servicios y un horario libre, y enviá la solicitud por WhatsApp. Te confirmamos el turno por ahí.</p>
+<div id="app" aria-live="polite"></div>
+</div>
+</section>
+</main>
+
+<footer id="contacto">
+<div class="wrap">
+<h2>Visitanos</h2>
+<div class="cols">
+<div><div class="lbl">Dónde estamos</div><div class="v">Barrio Primavera</div><div>Saltos del Guairá</div></div>
+<div><div class="lbl">Horarios</div><div class="v">Lunes a sábado · 14:00 a 19:00</div><div style="color:#6F5A60">Domingo: cerrado</div></div>
+<div><div class="lbl">WhatsApp</div><div class="v"><a id="wa-foot" href="#" style="font-weight:500"></a></div></div>
+</div>
+<div class="copy">© 2026 Coquetas</div>
+</div>
+</footer>
+
+<script src="coquetas.js"></script>
+<script>
+(function () {
+  var CQ = window.CQ, cfg = CQ.cfg, esc = CQ.esc, gs = CQ.gs, dur = CQ.dur;
+
+  var SERVICES = [
+    { id: 'glam', cat: 'Maquillaje', name: 'Maquillaje Glam', min: 90, price: null },
+    { id: 'madura', cat: 'Maquillaje', name: 'Maquillaje piel madura', min: 75, price: null },
+    { id: 'social', cat: 'Maquillaje', name: 'Maquillaje Social Piel Resistente', min: 60, price: 150000 },
+    { id: 'softgel', cat: 'Uñas', name: 'Uñas Soft Gel', min: 120, price: 130000 },
+    { id: 'semi', cat: 'Uñas', name: 'Manicura con esmaltado semipermanente', min: 60, price: 75000 }
+  ];
+  var CATS = ['Maquillaje', 'Uñas'];
+  var CELLS = (cfg.CLOSE - cfg.OPEN) / cfg.STEP;
+
+  var DAYS = (function () {
+    var t = CQ.todayYMD(), out = [];
+    for (var i = 0; out.length < 12; i++) { var y = CQ.addDays(t, i); if (CQ.dow(y) !== 0) out.push(y); }
+    return out;
+  })();
+
+  var st = { step: 1, cat: 'all', sel: {}, dateIdx: 0, time: null, name: '', phone: '', note: '', busy: [], busyState: 'idle' };
+  var app = document.getElementById('app');
+
+  var waBase = 'https://wa.me/' + cfg.WHATSAPP;
+  document.getElementById('wa-top').href = waBase;
+  var wf = document.getElementById('wa-foot'); wf.href = waBase; wf.textContent = cfg.WHATSAPP_LABEL;
+
+  var ARROW = '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+  var BACK = '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>';
+  var CLOCK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
+  var PIN = '<svg viewBox="0 0 24 24" fill="none" stroke="#8A4258" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 1 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>';
+
+  function chosen() { return SERVICES.filter(function (s) { return st.sel[s.id]; }); }
+  function totalMin() { return chosen().reduce(function (a, s) { return a + s.min; }, 0); }
+  function totalText() {
+    var c = chosen(), sum = c.reduce(function (a, s) { return a + (s.price || 0); }, 0);
+    var unk = c.some(function (s) { return s.price == null; });
+    return sum === 0 ? 'a consultar' : gs(sum) + (unk ? ' + a consultar' : '');
+  }
+  function priceText(s) { return s.price == null ? 'Consultar' : gs(s.price); }
+
+  // ---------- Disponibilidad ----------
+  function loadBusy() {
+    if (st.busyState === 'loading' || st.busyState === 'ok') return;
+    st.busyState = 'loading';
+    var desde = CQ.at(DAYS[0], 0).toISOString();
+    var hasta = CQ.at(CQ.addDays(DAYS[DAYS.length - 1], 1), 0).toISOString();
+    CQ.rest('/rest/v1/rpc/horarios_ocupados', { method: 'POST', body: { desde: desde, hasta: hasta } })
+      .then(function (rows) {
+        st.busy = (rows || []).map(function (r) { return { s: new Date(r.inicio), e: new Date(r.fin) }; });
+        st.busyState = 'ok';
+      })
+      .catch(function () { st.busyState = 'error'; })
+      .then(function () { if (st.step === 2) render(); });
+  }
+  function slotsFor(ymd) {
+    var need = Math.ceil(totalMin() / cfg.STEP), now = Date.now(), out = [];
+    for (var c = 0; c + need <= CELLS; c++) {
+      var s = cfg.OPEN + c * cfg.STEP;
+      var a = CQ.at(ymd, s), b = CQ.at(ymd, s + need * cfg.STEP);
+      var ok = a.getTime() >= now + 30 * 60000;
+      if (ok && st.busyState === 'ok') ok = !st.busy.some(function (x) { return x.s < b && x.e > a; });
+      out.push({ t: CQ.hhmm(s), ok: ok });
+    }
+    return out;
+  }
+
+  // ---------- Vistas ----------
+  function stepsHTML() {
+    var names = ['Servicios', 'Fecha y hora', 'Tus datos'];
+    return '<ol class="steps" aria-label="Pasos">' + names.map(function (n, i) {
+      var k = i + 1, cls = st.step === k ? 'cur' : st.step > k ? 'past' : '';
+      return '<li class="' + cls + '"' + (st.step === k ? ' aria-current="step"' : '') + '><span class="n">' + k + '</span><span>' + n + '</span></li>';
+    }).join('') + '</ol>';
+  }
+
+  function step1HTML() {
+    var cats = [['all', 'Todos']].concat(CATS.map(function (c) { return [c, c]; }));
+    var chips = cats.map(function (c) {
+      return '<button class="chip" data-a="cat" data-k="' + esc(c[0]) + '" aria-pressed="' + (st.cat === c[0]) + '">' + esc(c[1]) + '</button>';
+    }).join('');
+    var seen = {}, list = SERVICES.filter(function (s) { return st.cat === 'all' || s.cat === st.cat; }).map(function (s) {
+      var head = st.cat === 'all' && !seen[s.cat] ? '<h3>' + esc(s.cat) + '</h3>' : '';
+      seen[s.cat] = true;
+      var on = !!st.sel[s.id];
+      return head + '<div class="card' + (on ? ' on' : '') + '"><div style="flex:1 1 280px;min-width:0"><div class="name">' + esc(s.name) +
+        '</div><div class="meta">' + CLOCK + '<span>' + dur(s.min) + '</span></div></div><div class="right"><div class="price">' + priceText(s) +
+        '</div><button class="add" data-a="toggle" data-k="' + s.id + '" aria-pressed="' + on + '" aria-label="' + esc(s.name) + '">' + (on ? 'Agregado' : 'Agregar') + '</button></div></div>';
+    }).join('');
+    var n = chosen().length;
+    var s1 = n ? n + (n === 1 ? ' servicio' : ' servicios') + ' · ' + dur(totalMin()) : 'Tu selección';
+    var s2 = n ? 'Total ' + totalText() : 'Elegí al menos un servicio';
+    return '<div class="col"><div class="chips" role="group" aria-label="Filtrar por categoría">' + chips + '</div><div class="list">' + list + '</div>' +
+      '<div class="bar"><div><div class="s1">' + s1 + '</div><div class="s2">' + s2 + '</div></div>' +
+      '<button class="btn" data-a="to2"' + (n ? '' : ' disabled') + '>Elegir fecha y hora ' + ARROW + '</button></div></div>';
+  }
+
+  function step2HTML() {
+    var ymd = DAYS[st.dateIdx];
+    var need = Math.ceil(totalMin() / cfg.STEP);
+    var days = DAYS.map(function (y, i) {
+      var c = CQ.dayChip(y);
+      return '<button class="day" data-a="date" data-k="' + i + '" aria-pressed="' + (i === st.dateIdx) + '" aria-label="' + esc(CQ.dateLabel(y)) + '"><span class="wd">' +
+        (i === 0 && y === CQ.todayYMD() ? 'hoy' : c.wd) + '</span><span class="num">' + c.num + '</span><span class="mo">' + c.mo + '</span></button>';
+    }).join('');
+    var body;
+    if (need > CELLS) {
+      body = '<div class="note">Los servicios que elegiste suman ' + dur(totalMin()) + ', más que un día de atención. Elegí menos servicios o escribinos por WhatsApp para coordinar.</div>';
+    } else if (st.busyState === 'loading' || st.busyState === 'idle') {
+      body = '<p style="color:#6F5A60">Cargando horarios disponibles…</p>';
+    } else {
+      var slots = slotsFor(ymd);
+      var any = slots.some(function (s) { return s.ok; });
+      body = (st.busyState === 'error' ? '<div class="note" style="margin-bottom:14px">No pudimos cargar la disponibilidad. Elegí el horario que prefieras y te confirmamos por WhatsApp.</div>' : '') +
+        '<div class="slots" role="group" aria-label="Horarios">' + slots.map(function (s) {
+          return '<button class="slot" data-a="time" data-k="' + s.t + '"' + (s.ok ? '' : ' disabled') + ' aria-pressed="' + (st.time === s.t) + '">' + s.t + '</button>';
+        }).join('') + '</div>' +
+        (st.busyState === 'ok' ? '<div class="legend"><span>Los horarios tachados ya están ocupados.</span></div>' : '') +
+        (any ? '' : '<p style="margin:14px 0 0;color:#6F5A60">No quedan horarios libres este día. Probá con otro.</p>');
+    }
+    return '<div class="col"><div><h3 style="font-size:36px;line-height:1.1">Elegí fecha y horario</h3><p class="sub" style="margin-top:6px">Tu turno dura ' + dur(totalMin()) +
+      ' en total. El salón te confirma por WhatsApp.</p></div><div class="days" role="group" aria-label="Días">' + days + '</div>' +
+      '<div><div style="font-weight:600;margin-bottom:14px">Horarios para el ' + esc(CQ.dateLabel(ymd)) + '</div>' + body + '</div>' +
+      '<div class="row"><button class="btn ghost" data-a="to1">' + BACK + ' Volver</button><button class="btn" data-a="to3"' + (st.time ? '' : ' disabled') + '>Continuar ' + ARROW + '</button></div></div>';
+  }
+
+  function rangeText() {
+    if (!st.time) return '';
+    var p = st.time.split(':'), s = Number(p[0]) * 60 + Number(p[1]);
+    return st.time + ' a ' + CQ.hhmm(s + totalMin());
+  }
+
+  function step3HTML() {
+    var items = chosen().map(function (s) {
+      return '<div class="l"><div><div style="font-weight:500">' + esc(s.name) + '</div><small>' + dur(s.min) + '</small></div><div style="font-weight:500;white-space:nowrap">' + priceText(s) + '</div></div>';
+    }).join('');
+    return '<div class="col"><h3 style="font-size:36px;line-height:1.1">Tus datos</h3><div class="form2"><div class="fields">' +
+      '<div class="field"><label for="f-name">Nombre y apellido</label><input id="f-name" type="text" autocomplete="name" autocapitalize="words" placeholder="Ej.: María Gómez" value="' + esc(st.name) + '"></div>' +
+      '<div class="field"><label for="f-phone">Teléfono / WhatsApp</label><input id="f-phone" type="tel" autocomplete="tel" placeholder="Ej.: 0981 000 000" value="' + esc(st.phone) + '"></div>' +
+      '<div class="field"><label for="f-note">Comentario (opcional)</label><textarea id="f-note" rows="3" autocapitalize="sentences" placeholder="¿Algo que debamos saber?">' + esc(st.note) + '</textarea></div></div>' +
+      '<div class="sum"><h3>Resumen de tu solicitud</h3><div class="it">' + items + '</div><div class="tot"><span>Total</span><span>' + totalText() + '</span></div>' +
+      '<div class="info"><div>' + CLOCK + '<span>' + esc(CQ.dateLabel(DAYS[st.dateIdx])) + ' · ' + rangeText() + '</span></div><div>' + PIN + '<span>Barrio Primavera, Saltos del Guairá</span></div></div></div></div>' +
+      '<div class="row"><button class="btn ghost" data-a="to2">' + BACK + ' Volver</button><button class="btn" id="go4" data-a="to4" disabled>Revisar y enviar ' + ARROW + '</button></div></div>';
+  }
+
+  function message() {
+    var names = chosen().map(function (s) { return s.name; }).join(' + ');
+    return 'Hola Coquetas! Soy ' + st.name.trim() + '. Quisiera reservar: ' + names + ', el ' + CQ.dateLabel(DAYS[st.dateIdx]).toLowerCase() +
+      ' a las ' + st.time + '.' + (st.note.trim() ? ' Comentario: ' + st.note.trim() : '') + ' ¿Tienen disponibilidad? Mi número: ' + st.phone.trim();
+  }
+
+  function step4HTML() {
+    var first = st.name.trim().split(/\s+/)[0] || '';
+    var names = chosen().map(function (s) { return esc(s.name); }).join(' + ');
+    var href = waBase + '?text=' + encodeURIComponent(message());
+    return '<div class="done"><div class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>' +
+      '<h3>¡Ya casi, ' + esc(first) + '!</h3><p>Tu solicitud está lista. Envianosla por WhatsApp y te confirmamos el turno.</p>' +
+      '<div class="box"><div style="font-weight:600">' + esc(CQ.dateLabel(DAYS[st.dateIdx])) + ' · ' + rangeText() + '</div><div style="color:#6F5A60">' + names + '</div><div style="color:#6F5A60">Total: ' + totalText() + '</div></div>' +
+      '<div class="acts"><a class="btn" href="' + href + '" target="_blank" rel="noopener">Enviar por WhatsApp</a><button class="btn ghost" data-a="reset">Empezar de nuevo</button></div>' +
+      '<p style="margin-top:18px;font-size:15px">Si no se abre WhatsApp, escribinos al ' + cfg.WHATSAPP_LABEL + '.</p></div>';
+  }
+
+  function render(focusKey) {
+    var html = st.step < 4 ? stepsHTML() : '';
+    html += st.step === 1 ? step1HTML() : st.step === 2 ? step2HTML() : st.step === 3 ? step3HTML() : step4HTML();
+    app.innerHTML = html;
+    if (st.step === 3) updateReview();
+    if (focusKey) {
+      var el = app.querySelector('[data-a="' + focusKey[0] + '"][data-k="' + focusKey[1] + '"]');
+      if (el && !el.disabled) el.focus();
+    }
+  }
+  function go(step) {
+    st.step = step;
+    if (step === 2 && st.dateIdx === 0 && !st.time && DAYS[0] === CQ.todayYMD()) {
+      // si hoy ya no queda ningún horario posible, arrancar en el día siguiente
+      var any = slotsFor(DAYS[0]).some(function (s) { return s.ok; });
+      if (!any && DAYS.length > 1) st.dateIdx = 1;
+    }
+    render();
+    if (step === 2) loadBusy();
+    var r = document.getElementById('reservar');
+    if (r && r.scrollIntoView) r.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  function formOk() { return st.name.trim().length >= 2 && st.phone.replace(/\D/g, '').length >= 8; }
+  function updateReview() { var b = document.getElementById('go4'); if (b) b.disabled = !formOk(); }
+
+  app.addEventListener('click', function (e) {
+    var el = e.target.closest('[data-a]');
+    if (!el || el.disabled) return;
+    var a = el.dataset.a, k = el.dataset.k;
+    if (a === 'cat') { st.cat = k; render([a, k]); }
+    else if (a === 'toggle') { st.sel[k] = !st.sel[k]; st.time = null; render([a, k]); }
+    else if (a === 'date') { st.dateIdx = Number(k); st.time = null; render([a, k]); }
+    else if (a === 'time') { st.time = k; render([a, k]); }
+    else if (a === 'to1') go(1);
+    else if (a === 'to2') go(2);
+    else if (a === 'to3') { if (st.time) go(3); }
+    else if (a === 'to4') { if (formOk()) go(4); }
+    else if (a === 'reset') { st.step = 1; st.cat = 'all'; st.sel = {}; st.dateIdx = 0; st.time = null; st.name = ''; st.phone = ''; st.note = ''; go(1); }
+  });
+  app.addEventListener('input', function (e) {
+    var id = e.target.id;
+    if (id === 'f-name') CQ.applyCap(e.target, CQ.capWords);
+    else if (id === 'f-note') CQ.applyCap(e.target, CQ.capFirst);
+    if (id === 'f-name') st.name = e.target.value;
+    else if (id === 'f-phone') st.phone = e.target.value;
+    else if (id === 'f-note') st.note = e.target.value;
+    else return;
+    updateReview();
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
